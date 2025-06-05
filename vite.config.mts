@@ -28,4 +28,9 @@ export default defineConfig({
             'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
         },
     },
+    server: {
+        host: '0.0.0.0',
+        port: 5173,
+        strictPort: true, // optional but helps avoid silent port changes
+    },
 });

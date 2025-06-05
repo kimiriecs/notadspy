@@ -11,25 +11,35 @@ createServer((page) =>
     createInertiaApp({
         page,
         render: renderToString,
-        title: (title) => `${title} - ${appName}`,
+        title: (title) => `${title} &middot; ${appName}`,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         resolve: (name) => resolvePageComponent(`./pages/${name}.vue`, import.meta.glob('./pages/**/*.vue')),
         setup({ App, props, plugin }) {
             const app = createSSRApp({ render: () => h(App, props) });
 
             // Configure Ziggy for SSR...
             const ziggyConfig = {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 ...page.props.ziggy,
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 location: new URL(page.props.ziggy.location),
             };
 
-            // Create route function...
+            // Create a route function...
             const route = (name: string, params?: any, absolute?: boolean) => ziggyRoute(name, params, absolute, ziggyConfig);
 
             // Make route function available globally...
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             app.config.globalProperties.route = route;
 
-            // Make route function available globally for SSR...
+            // Make a route function available globally for SSR...
             if (typeof window === 'undefined') {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 global.route = route;
             }
 

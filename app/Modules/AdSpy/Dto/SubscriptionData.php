@@ -2,6 +2,7 @@
 
 namespace App\Modules\AdSpy\Dto;
 
+use App\Modules\AdSpy\Enum\SubscriptionStatus;
 use App\Modules\AdSpy\ValueObject\Email;
 use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
 use DateTimeImmutable;
@@ -18,7 +19,7 @@ readonly class SubscriptionData
      * @param NotNegativeInteger $advertId
      * @param Email $notificationEmail
      * @param DateTimeImmutable $notificationEmailVerifiedAt
-     * @param DateTimeImmutable $startedAt
+     * @param SubscriptionStatus $status
      * @param NotNegativeInteger|null $id
      */
     public function __construct(
@@ -26,7 +27,7 @@ readonly class SubscriptionData
         private NotNegativeInteger $advertId,
         private Email $notificationEmail,
         private DateTimeImmutable $notificationEmailVerifiedAt,
-        private DateTimeImmutable $startedAt,
+        private SubscriptionStatus $status,
         private ?NotNegativeInteger $id = null
     ) {
     }
@@ -72,23 +73,22 @@ readonly class SubscriptionData
     }
 
     /**
-     * @return DateTimeImmutable
+     * @return SubscriptionStatus
      */
-    public function getStartedAt(): DateTimeImmutable
+    public function getStatus(): SubscriptionStatus
     {
-        return $this->startedAt;
+        return $this->status;
     }
-
 
     public function jsonSerialize(): array
     {
         return [
-            'id' => $this->getId()->asInt(),
+            'id' => $this->getId()?->asInt(),
             'user_id' => $this->getUserId()->asInt(),
             'advert_id' => $this->getAdvertId()->asInt(),
             'notification_email' => $this->getNotificationEmail()->value(),
             'notification_email_verified_at' => $this->getNotificationEmailVerifiedAt()->format('Y-m-d'),
-            'started_at' => $this->getStartedAt()->format('Y-m-d'),
+            'status' => $this->getStatus()->value,
         ];
     }
 }

@@ -16,21 +16,31 @@ readonly class PriceData implements JsonSerializable
 {
     /**
      * @param Price $price
+     * @param NotNegativeInteger|null $advertId
      * @param NotNegativeInteger|null $id
      */
     public function __construct(
         private Price $price,
+        private ?NotNegativeInteger $advertId = null,
         private ?NotNegativeInteger $id = null
     ) {
     }
 
-/**
- * @return NotNegativeInteger|null
- */
-public function getId(): ?NotNegativeInteger
-{
-    return $this->id;
-}
+    /**
+     * @return NotNegativeInteger|null
+     */
+    public function getId(): ?NotNegativeInteger
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return NotNegativeInteger|null
+     */
+    public function getAdvertId(): ?NotNegativeInteger
+    {
+        return $this->advertId;
+    }
 
     /**
      * @return NotNegativeInteger
@@ -51,7 +61,8 @@ public function getId(): ?NotNegativeInteger
     public function jsonSerialize(): array
     {
         return [
-            'id' => $this->getId()->asInt(),
+            'id' => $this->getId()?->asInt(),
+            'advert_id' => $this->getAdvertId()?->asInt(),
             'amount' => $this->getAmount()->asInt(),
             'currency' => $this->getCurrency()->value(),
         ];

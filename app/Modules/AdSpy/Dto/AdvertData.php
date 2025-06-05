@@ -85,7 +85,7 @@ readonly class AdvertData implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'id' => $this->getId()->asInt(),
+            'id' => $this->getId()?->asInt(),
             'title' => $this->getTitle()->value(),
             'url' => $this->getUrl()->value(),
             'image_url' => $this->getImageUrl()->value(),

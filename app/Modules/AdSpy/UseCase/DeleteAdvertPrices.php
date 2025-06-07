@@ -4,7 +4,7 @@ namespace App\Modules\AdSpy\UseCase;
 
 use App\Interface\CommandBus\CommandBusInterface;
 use App\Modules\AdSpy\CommandBus\Command\Price\DeletePricesByAdvertId;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 
 /**
  * Class DeleteAdvertPrices

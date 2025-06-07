@@ -2,7 +2,7 @@
 
 namespace App\Interface\Repository;
 
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 
 /**
  * Interface WriteRepositoryInterface

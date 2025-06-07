@@ -4,7 +4,7 @@ namespace App\Modules\AdSpy\Services\AdvertDataFetch;
 
 use App\Modules\AdSpy\Enum\AdvertUrlPart;
 use App\Modules\AdSpy\Enum\Locale;
-use App\Modules\AdSpy\ValueObject\Url;
+use App\ValueObject\Url;
 
 /**
  * Class AdvertLocaleMatcher

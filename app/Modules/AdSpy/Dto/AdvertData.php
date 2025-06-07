@@ -2,10 +2,10 @@
 
 namespace App\Modules\AdSpy\Dto;
 
-use App\Modules\AdSpy\ValueObject\ImageUrl;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
-use App\Modules\AdSpy\ValueObject\Title;
-use App\Modules\AdSpy\ValueObject\Url;
+use App\ValueObject\ImageUrl;
+use App\ValueObject\NotNegativeInteger;
+use App\ValueObject\Title;
+use App\ValueObject\Url;
 use DateTimeImmutable;
 use JsonSerializable;
 

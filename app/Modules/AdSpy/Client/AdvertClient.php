@@ -3,7 +3,7 @@
 namespace App\Modules\AdSpy\Client;
 
 use App\Modules\AdSpy\Interface\AdvertClientInterface;
-use App\Modules\AdSpy\ValueObject\Url;
+use App\ValueObject\Url;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;

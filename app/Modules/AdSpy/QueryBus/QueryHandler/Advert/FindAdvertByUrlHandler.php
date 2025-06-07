@@ -24,11 +24,11 @@ readonly class FindAdvertByUrlHandler implements QueryHandlerInterface
     }
 
     /**
-     * @param FindAdvertByUrl $command
+     * @param FindAdvertByUrl $query
      * @return Advert|null
      */
-    public function handle(Query $command): ?Advert
+    public function handle(Query $query): ?Advert
     {
-        return $this->repository->findByUrl($command->getAdvertUrl());
+        return $this->repository->findByUrl($query->getAdvertUrl());
     }
 }

@@ -5,7 +5,7 @@ namespace App\Modules\AdSpy\Interface\Repository\Advert;
 use App\Interface\Repository\WriteRepositoryInterface;
 use App\Modules\AdSpy\Dto\AdvertData;
 use App\Modules\AdSpy\Entities\Advert;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 
 /**
  * Interface WriteAdvertRepositoryInterface

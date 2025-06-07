@@ -2,8 +2,7 @@
 
 namespace App\Repository;
 
-use App\Modules\AdSpy\Entities\Subscription;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -25,14 +24,15 @@ abstract class BaseWriteRepository
      */
     public function delete(NotNegativeInteger $id): bool
     {
-        $model = $this->getBuilder()->firstWhere('id', $id->asInt());
+        $id = $id->asInt();
+        $model = $this->getBuilder()->firstWhere('id', $id);
         if (!$model) {
-            throw new ModelNotFoundException("Subscription with provided ID = {${$id->asInt()}} not found");
+            throw new ModelNotFoundException("Subscription with provided ID = $id not found");
         }
 
         $success = $model->delete();
         if (!$success) {
-            throw new ModelNotFoundException("Unable to delete subscription with provided ID = {${$id->asInt()}}");
+            throw new ModelNotFoundException("Unable to delete subscription with provided ID = $id");
         }
 
         return $success;

@@ -2,8 +2,7 @@
 
 namespace App\Repository;
 
-use App\Modules\AdSpy\Entities\Advert;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 

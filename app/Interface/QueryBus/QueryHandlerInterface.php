@@ -11,5 +11,5 @@ use App\Bus\QueryBus\Query;
  */
 interface QueryHandlerInterface
 {
-    public function handle(Query $command): mixed;
+    public function handle(Query $query): mixed;
 }

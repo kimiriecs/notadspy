@@ -2,9 +2,10 @@
 
 namespace App\Modules\AdSpy\UseCase;
 
+use App\Exception\InvalidEmailFormatException;
+use App\Exception\InvalidNumberFormatException;
 use App\Interface\CommandBus\CommandBusInterface;
 use App\Interface\QueryBus\QueryBusInterface;
-use App\Models\User;
 use App\Modules\AdSpy\CommandBus\Command\Advert\StoreAdvert;
 use App\Modules\AdSpy\CommandBus\Command\Price\StorePrice;
 use App\Modules\AdSpy\CommandBus\Command\Subscription\StoreSubscription;
@@ -12,14 +13,13 @@ use App\Modules\AdSpy\Dto\SubscriptionData;
 use App\Modules\AdSpy\Entities\Advert;
 use App\Modules\AdSpy\Entities\Subscription;
 use App\Modules\AdSpy\Enum\SubscriptionStatus;
-use App\Modules\AdSpy\Exception\InvalidEmailFormatException;
-use App\Modules\AdSpy\Exception\InvalidNumberFormatException;
 use App\Modules\AdSpy\Interface\AdvertDataFetcherInterface;
 use App\Modules\AdSpy\QueryBus\Query\Advert\FindAdvertByUrl;
 use App\Modules\AdSpy\QueryBus\Query\Subscription\FindUserSubscriptionByAdvertId;
-use App\Modules\AdSpy\ValueObject\Email;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
-use App\Modules\AdSpy\ValueObject\Url;
+use App\Modules\User\Entities\User;
+use App\ValueObject\Email;
+use App\ValueObject\NotNegativeInteger;
+use App\ValueObject\Url;
 use DateTimeImmutable;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,10 +33,12 @@ readonly class RegisterSubscription
     /**
      * @param QueryBusInterface $queryBus
      * @param CommandBusInterface $commandBus
+     * @param AdvertDataFetcherInterface $fetcher
      */
     public function __construct(
         private QueryBusInterface $queryBus,
-        private CommandBusInterface $commandBus
+        private CommandBusInterface $commandBus,
+        private AdvertDataFetcherInterface $fetcher
     ) {
     }
 
@@ -49,8 +51,7 @@ readonly class RegisterSubscription
         /** @var Advert|null $existingAdvert */
         $advert = $this->queryBus->dispatch(new FindAdvertByUrl($url));
         if (!$advert) {
-            $fetcher = app(AdvertDataFetcherInterface::class);
-            $advertData = $fetcher->fetch($url);
+            $advertData = $this->fetcher->fetch($url);
             /** @var Advert $advert */
             $advert = $this->commandBus->dispatch(new StoreAdvert($advertData));
             $this->commandBus->dispatch(

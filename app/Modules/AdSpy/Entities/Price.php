@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class Price
+ *
+ * @package App\Modules\AdSpy\Entities
+ * @mixin IdeHelperPrice
+ */
 class Price extends Model
 {
     use SoftDeletes;
@@ -26,6 +32,8 @@ class Price extends Model
         'advert_id',
         'amount',
         'currency',
+        'created_at',
+        'updated_at',
     ];
 
     /**

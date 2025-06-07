@@ -2,7 +2,7 @@
 
 namespace App\Modules\AdSpy\Interface;
 
-use App\Modules\AdSpy\ValueObject\Url;
+use App\ValueObject\Url;
 use Illuminate\Http\Response;
 
 /**

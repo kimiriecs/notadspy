@@ -5,8 +5,8 @@ namespace App\Modules\AdSpy\Repository\Subscription;
 use App\Modules\AdSpy\Dto\SubscriptionData;
 use App\Modules\AdSpy\Entities\Subscription;
 use App\Modules\AdSpy\Interface\Repository\Subscription\WriteSubscriptionRepositoryInterface;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
 use App\Repository\BaseWriteRepository;
+use App\ValueObject\NotNegativeInteger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -44,15 +44,16 @@ class WriteSubscriptionRepository extends BaseWriteRepository implements WriteSu
      */
     public function update(NotNegativeInteger $subscriptionId, SubscriptionData $subscription): Subscription
     {
+        $subscriptionId = $subscriptionId->asInt();
         /** @var Subscription|null $subscription */
-        $existingSubscription = $this->getBuilder()->firstWhere('id', $subscriptionId->asInt());
+        $existingSubscription = $this->getBuilder()->firstWhere('id', $subscriptionId);
         if (!$existingSubscription instanceof Subscription) {
-            throw new ModelNotFoundException("Subscription with provided ID = {${$subscriptionId->asInt()}} not found");
+            throw new ModelNotFoundException("Subscription with provided ID = $subscriptionId not found");
         }
 
         $success = $existingSubscription->update($subscription->jsonSerialize());
         if (!$success) {
-            throw new ModelNotFoundException("Unable to update subscription with provided ID = {${$subscriptionId->asInt()}}");
+            throw new ModelNotFoundException("Unable to update subscription with provided ID = $subscriptionId");
         }
 
         return $existingSubscription;

@@ -2,7 +2,7 @@
 
 namespace App\Modules\AdSpy\Entities;
 
-use App\Models\User;
+use App\Modules\User\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Class Subscription
  *
  * @package App\Modules\AdSpy\Entities
- * @property-read Advert $advert
+ * @mixin IdeHelperSubscription
  */
 class Subscription extends Model
 {

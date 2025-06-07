@@ -2,10 +2,10 @@
 
 namespace App\Modules\AdSpy\Observer;
 
+use App\Exception\InvalidNumberFormatException;
 use App\Modules\AdSpy\Entities\Advert;
-use App\Modules\AdSpy\Exception\InvalidNumberFormatException;
 use App\Modules\AdSpy\UseCase\DeleteAdvertPrices;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 
 readonly class AdvertObserver
 {

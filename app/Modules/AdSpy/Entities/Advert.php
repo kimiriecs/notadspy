@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Class Advert
  *
  * @package App\Modules\AdSpy\Entities
- * @property-read int $id
+ * @mixin IdeHelperAdvert
  */
 class Advert extends Model
 {
@@ -53,7 +53,17 @@ class Advert extends Model
      */
     public function prices(): HasMany
     {
-        return $this->hasMany(Price::class)->whereNotNull('deleted_at');
+        return $this->hasMany(Price::class);//->whereNull(['deleted_at']);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function currentPrice(): HasOne
+    {
+        return $this->hasOne(Price::class)
+            ->latestOfMany()
+            ->whereNull('deleted_at');
     }
 
     /**
@@ -61,6 +71,6 @@ class Advert extends Model
      */
     public function subscriptions(): HasMany
     {
-        return $this->hasMany(Subscription::class)->whereNotNull('deleted_at');
+        return $this->hasMany(Subscription::class)->whereNull('deleted_at');
     }
 }

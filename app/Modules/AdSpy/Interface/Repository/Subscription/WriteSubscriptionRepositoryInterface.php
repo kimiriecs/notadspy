@@ -4,7 +4,7 @@ namespace App\Modules\AdSpy\Interface\Repository\Subscription;
 
 use App\Modules\AdSpy\Dto\SubscriptionData;
 use App\Modules\AdSpy\Entities\Subscription;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 
 /**
  * Interface WriteSubscriptionRepositoryInterface

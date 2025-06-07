@@ -5,8 +5,8 @@ namespace App\Modules\AdSpy\Repository\Advert;
 use App\Modules\AdSpy\Dto\AdvertData;
 use App\Modules\AdSpy\Entities\Advert;
 use App\Modules\AdSpy\Interface\Repository\Advert\WriteAdvertRepositoryInterface;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
 use App\Repository\BaseWriteRepository;
+use App\ValueObject\NotNegativeInteger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
@@ -48,15 +48,16 @@ class WriteAdvertRepository extends BaseWriteRepository implements WriteAdvertRe
      */
     public function update(NotNegativeInteger $advertId, AdvertData $advert): Advert
     {
+        $advertId = $advertId->asInt();
         /** @var Advert|null $advert */
-        $existingAdvert = $this->getBuilder()->firstWhere('id', $advertId->asInt());
+        $existingAdvert = $this->getBuilder()->firstWhere('id', $advertId);
         if (!$existingAdvert instanceof Advert) {
-            throw new ModelNotFoundException("Advert with provided ID = {${$advertId->asInt()}} not found");
+            throw new ModelNotFoundException("Advert with provided ID = $advertId not found");
         }
 
         $success = $existingAdvert->update($advert->jsonSerialize());
         if (!$success) {
-            throw new ModelNotFoundException("Unable to update advert with provided ID = {${$advertId->asInt()}}");
+            throw new ModelNotFoundException("Unable to update advert with provided ID = $advertId");
         }
 
         return $existingAdvert;

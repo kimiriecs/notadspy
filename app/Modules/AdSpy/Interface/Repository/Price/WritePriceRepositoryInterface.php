@@ -4,7 +4,7 @@ namespace App\Modules\AdSpy\Interface\Repository\Price;
 
 use App\Modules\AdSpy\Dto\PriceData;
 use App\Modules\AdSpy\Entities\Price;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 
 /**
  * Interface WritePriceRepositoryInterface
@@ -25,4 +25,10 @@ interface WritePriceRepositoryInterface
      * @return bool
      */
     public function deletePricesByAdvertId(NotNegativeInteger $advertId): bool;
+
+    /**
+     * @param array<PriceData> $prices
+     * @return bool
+     */
+    public function bulkInsert(array $prices): bool;
 }

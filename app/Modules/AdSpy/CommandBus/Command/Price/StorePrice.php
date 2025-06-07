@@ -4,7 +4,7 @@ namespace App\Modules\AdSpy\CommandBus\Command\Price;
 
 use App\Bus\CommandBus\Command;
 use App\Modules\AdSpy\Dto\PriceData;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 
 /**
  * Class StorePrice

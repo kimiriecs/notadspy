@@ -2,18 +2,18 @@
 
 namespace App\Modules\AdSpy\UseCase;
 
+use App\Exception\InvalidNumberFormatException;
 use App\Interface\CommandBus\CommandBusInterface;
 use App\Modules\AdSpy\CommandBus\Command\Advert\DeleteAdvert;
 use App\Modules\AdSpy\Entities\Advert;
-use App\Modules\AdSpy\Exception\InvalidNumberFormatException;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 
 /**
  * Class DeleteAdvertWithoutSubscriptions
  *
  * @package App\Modules\AdSpy\UseCase
  */
-class DeleteAdvertWithoutSubscriptions
+readonly class DeleteAdvertWithoutSubscriptions
 {
 
     public function __construct(

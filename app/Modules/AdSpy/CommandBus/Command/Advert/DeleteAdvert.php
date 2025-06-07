@@ -3,7 +3,7 @@
 namespace App\Modules\AdSpy\CommandBus\Command\Advert;
 
 use App\Bus\CommandBus\Command;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 
 /**
  * Class DeleteAdvert

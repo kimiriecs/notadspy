@@ -4,10 +4,11 @@ namespace App\Modules\AdSpy\Repository\Subscription;
 
 use App\Modules\AdSpy\Entities\Subscription;
 use App\Modules\AdSpy\Interface\Repository\Subscription\ReadSubscriptionRepositoryInterface;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
 use App\Repository\BaseReadRepository;
+use App\ValueObject\NotNegativeInteger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 
 /**
  * Class ReadSubscriptionRepository
@@ -47,5 +48,18 @@ class ReadSubscriptionRepository extends BaseReadRepository implements ReadSubsc
             ->with(['advert', 'advert.prices'])
             ->where('user_id', $userId->asInt())
             ->get();
+    }
+
+    /**
+     * @param NotNegativeInteger $advertId
+     * @return SupportCollection<NotNegativeInteger>
+     */
+    public function fetchSubscribersIdsByAdvertId(NotNegativeInteger $advertId): SupportCollection
+    {
+        $userIds = $this->getBuilder()
+            ->where('advert_id', $advertId)
+            ->pluck('user_id');
+
+        return $userIds->map(fn(int $id) => NotNegativeInteger::fromNumber($id));
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Modules\AdSpy\Dto;
 
 use App\Modules\AdSpy\Enum\SubscriptionStatus;
-use App\Modules\AdSpy\ValueObject\Email;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\Email;
+use App\ValueObject\NotNegativeInteger;
 use DateTimeImmutable;
 
 /**

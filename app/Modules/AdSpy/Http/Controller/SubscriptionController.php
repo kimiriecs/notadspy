@@ -3,10 +3,10 @@
 namespace App\Modules\AdSpy\Http\Controller;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Modules\AdSpy\Http\Request\StoreAdvertRequest;
 use App\Modules\AdSpy\UseCase\RegisterSubscription;
-use App\Modules\AdSpy\ValueObject\Url;
+use App\Modules\User\Entities\User;
+use App\ValueObject\Url;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

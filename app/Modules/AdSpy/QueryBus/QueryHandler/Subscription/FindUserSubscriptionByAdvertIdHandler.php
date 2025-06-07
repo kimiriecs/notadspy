@@ -24,14 +24,14 @@ readonly class FindUserSubscriptionByAdvertIdHandler implements QueryHandlerInte
     }
 
     /**
-     * @param FindUserSubscriptionByAdvertId $command
+     * @param FindUserSubscriptionByAdvertId $query
      * @return Subscription|null
      */
-    public function handle(Query $command): ?Subscription
+    public function handle(Query $query): ?Subscription
     {
         return $this->repository->findUserSubscriptionByAvertId(
-            $command->getUserId(),
-            $command->getAdvertId()
+            $query->getUserId(),
+            $query->getAdvertId()
         );
     }
 }

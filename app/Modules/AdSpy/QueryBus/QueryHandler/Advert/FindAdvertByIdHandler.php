@@ -4,6 +4,7 @@ namespace App\Modules\AdSpy\QueryBus\QueryHandler\Advert;
 
 use App\Bus\QueryBus\Query;
 use App\Interface\QueryBus\QueryHandlerInterface;
+use App\Modules\AdSpy\Entities\Advert;
 use App\Modules\AdSpy\Interface\Repository\Advert\ReadAdvertRepositoryInterface;
 use App\Modules\AdSpy\QueryBus\Query\Advert\FindAdvertById;
 
@@ -12,7 +13,7 @@ use App\Modules\AdSpy\QueryBus\Query\Advert\FindAdvertById;
  *
  * @package App\Modules\AdSpy\QueryBus\QueryHandler\Advert
  */
-class FindAdvertByIdHandler implements QueryHandlerInterface
+readonly class FindAdvertByIdHandler implements QueryHandlerInterface
 {
     /**
      * @param ReadAdvertRepositoryInterface $repository
@@ -23,11 +24,14 @@ class FindAdvertByIdHandler implements QueryHandlerInterface
     }
 
     /**
-     * @param FindAdvertById $command
-     * @return array
+     * @param FindAdvertById $query
+     * @return Advert|null
      */
-    public function handle(Query $command): array
+    public function handle(Query $query): ?Advert
     {
-        return [];
+        /** @var Advert|null $advert */
+        $advert = $this->repository->findById($query->getAdvertId());
+
+        return $advert;
     }
 }

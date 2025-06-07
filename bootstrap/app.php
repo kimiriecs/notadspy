@@ -22,6 +22,12 @@ return Application::configure(basePath: dirname(__DIR__))
             AddLinkHeadersForPreloadedAssets::class,
         ]);
     })
+    ->withCommands([
+        __DIR__.'/../app/Modules/AdSpy/Console',
+    ])
+   // ->withEvents(discover: [
+   //     __DIR__.'/../app/Modules/*/Listener',
+   // ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();

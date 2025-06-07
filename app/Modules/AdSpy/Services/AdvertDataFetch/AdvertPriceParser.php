@@ -2,9 +2,9 @@
 
 namespace App\Modules\AdSpy\Services\AdvertDataFetch;
 
-use App\Modules\AdSpy\Exception\InvalidCurrencyFormatException;
-use App\Modules\AdSpy\Exception\InvalidNumberFormatException;
-use App\Modules\AdSpy\ValueObject\Price;
+use App\Exception\InvalidCurrencyFormatException;
+use App\Exception\InvalidNumberFormatException;
+use App\ValueObject\Price;
 
 /**
  * Class AdvertPriceParser

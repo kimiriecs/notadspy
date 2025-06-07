@@ -4,7 +4,7 @@ namespace App\Modules\AdSpy\Interface\Repository\Price;
 
 use App\Interface\Repository\ReadRepositoryInterface;
 use App\Modules\AdSpy\Entities\Price;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 use Illuminate\Database\Eloquent\Collection;
 
 /**

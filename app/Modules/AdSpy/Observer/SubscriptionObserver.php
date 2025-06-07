@@ -2,8 +2,8 @@
 
 namespace App\Modules\AdSpy\Observer;
 
+use App\Exception\InvalidNumberFormatException;
 use App\Modules\AdSpy\Entities\Subscription;
-use App\Modules\AdSpy\Exception\InvalidNumberFormatException;
 use App\Modules\AdSpy\UseCase\DeleteAdvertWithoutSubscriptions;
 
 readonly class SubscriptionObserver

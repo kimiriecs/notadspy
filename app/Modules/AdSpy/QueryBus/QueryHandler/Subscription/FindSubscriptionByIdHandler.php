@@ -4,6 +4,7 @@ namespace App\Modules\AdSpy\QueryBus\QueryHandler\Subscription;
 
 use App\Bus\QueryBus\Query;
 use App\Interface\QueryBus\QueryHandlerInterface;
+use App\Modules\AdSpy\Entities\Subscription;
 use App\Modules\AdSpy\Interface\Repository\Subscription\ReadSubscriptionRepositoryInterface;
 use App\Modules\AdSpy\QueryBus\Query\Subscription\FindSubscriptionById;
 
@@ -12,7 +13,7 @@ use App\Modules\AdSpy\QueryBus\Query\Subscription\FindSubscriptionById;
  *
  * @package App\Modules\AdSpy\QueryBus\QueryHandler\Subscription
  */
-class FindSubscriptionByIdHandler implements QueryHandlerInterface
+readonly class FindSubscriptionByIdHandler implements QueryHandlerInterface
 {
     /**
      * @param ReadSubscriptionRepositoryInterface $repository
@@ -23,11 +24,14 @@ class FindSubscriptionByIdHandler implements QueryHandlerInterface
     }
 
     /**
-     * @param FindSubscriptionById $command
-     * @return array
+     * @param FindSubscriptionById $query
+     * @return Subscription|null
      */
-    public function handle(Query $command): array
+    public function handle(Query $query): ?Subscription
     {
-        return [];
+        /** @var Subscription|null $subscription */
+        $subscription = $this->repository->findById($query->getSubscriptionId());
+
+        return $subscription;
     }
 }

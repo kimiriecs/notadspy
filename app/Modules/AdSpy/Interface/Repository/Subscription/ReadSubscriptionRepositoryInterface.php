@@ -4,8 +4,9 @@ namespace App\Modules\AdSpy\Interface\Repository\Subscription;
 
 use App\Interface\Repository\ReadRepositoryInterface;
 use App\Modules\AdSpy\Entities\Subscription;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 
 /**
  * Interface ReadSubscriptionRepositoryInterface
@@ -26,4 +27,10 @@ interface ReadSubscriptionRepositoryInterface extends ReadRepositoryInterface
      * @return Collection<Subscription>
      */
     public function fetchAllUserSubscriptions(NotNegativeInteger $userId): Collection;
+
+    /**
+     * @param NotNegativeInteger $advertId
+     * @return SupportCollection<NotNegativeInteger>
+     */
+    public function fetchSubscribersIdsByAdvertId(NotNegativeInteger $advertId): SupportCollection;
 }

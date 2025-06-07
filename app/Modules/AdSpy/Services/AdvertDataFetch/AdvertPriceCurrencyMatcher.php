@@ -2,8 +2,8 @@
 
 namespace App\Modules\AdSpy\Services\AdvertDataFetch;
 
+use App\Exception\InvalidCurrencyFormatException;
 use App\Modules\AdSpy\Enum\CurrencySymbol;
-use App\Modules\AdSpy\Exception\InvalidCurrencyFormatException;
 
 /**
  * Class AdvertPriceCurrencyMatcher

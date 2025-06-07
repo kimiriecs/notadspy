@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Spy\DashboardController;
 use App\Http\Controllers\WelcomeController;
 use App\Modules\AdSpy\Http\Controller\SubscriptionController;
+use App\Modules\User\Http\Controller\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 

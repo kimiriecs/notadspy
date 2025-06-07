@@ -3,7 +3,8 @@
 namespace App\Modules\AdSpy\Interface;
 
 use App\Modules\AdSpy\Dto\AdvertData;
-use App\Modules\AdSpy\ValueObject\Url;
+use App\ValueObject\Price;
+use App\ValueObject\Url;
 
 /**
  * Interface AdvertDataFetcherInterface
@@ -17,4 +18,10 @@ interface AdvertDataFetcherInterface
      * @return AdvertData
      */
     public function fetch(Url $url): AdvertData;
+
+    /**
+     * @param Url $url
+     * @return Price
+     */
+    public function fetchPrice(Url $url): Price;
 }

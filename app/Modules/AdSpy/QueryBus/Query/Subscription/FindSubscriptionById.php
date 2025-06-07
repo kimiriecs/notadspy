@@ -3,7 +3,7 @@
 namespace App\Modules\AdSpy\QueryBus\Query\Subscription;
 
 use App\Bus\QueryBus\Query;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
+use App\ValueObject\NotNegativeInteger;
 
 /**
  * Class FindSubscriptionById

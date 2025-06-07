@@ -8,10 +8,12 @@ use App\Modules\AdSpy\Exception\AdvertClientException;
 use App\Modules\AdSpy\Exception\AdvertParsingException;
 use App\Modules\AdSpy\Interface\AdvertClientInterface;
 use App\Modules\AdSpy\Interface\AdvertDataFetcherInterface;
-use App\Modules\AdSpy\ValueObject\Url;
+use App\Modules\AdSpy\Interface\AdvertPageParserInterface;
+use App\ValueObject\Price;
+use App\ValueObject\Url;
 use Exception;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AdvertDataFetcher
@@ -27,8 +29,8 @@ readonly class AdvertDataFetcher implements AdvertDataFetcherInterface
      */
     public function __construct(
         private AdvertClientInterface $advertClient,
-        private AdvertPageParser $pageParser,
-        private AdvertLocaleMatcher $localeMatcher
+        private AdvertPageParserInterface $pageParser,
+        //private AdvertLocaleMatcher $localeMatcher
     ) {
     }
 
@@ -40,12 +42,7 @@ readonly class AdvertDataFetcher implements AdvertDataFetcherInterface
      */
     public function fetch(Url $url): AdvertData
     {
-        $response = $this->advertClient->get($url);
-        if ($response->status() !== Response::HTTP_OK) {
-            throw new AdvertClientException("Unable to fetch content from the page with provided url: $url");
-        }
-
-        $data = $response->content();
+        $data = $this->requestPageData($url);
         //TODO: use after research target site locale logic issue
         //$locale = $this->localeMatcher->getLocale($url);
         //TODO: remove after research target site locale logic issue
@@ -57,5 +54,37 @@ readonly class AdvertDataFetcher implements AdvertDataFetcherInterface
             Log::error($e->getMessage(), $e->getTrace());
             throw new AdvertParsingException("Unable to parse content from the page with provided url: $url");
         }
+    }
+
+    /**
+     * @param Url $url
+     * @return Price
+     * @throws AdvertClientException
+     * @throws AdvertParsingException
+     */
+    public function fetchPrice(Url $url): Price
+    {
+        $data = $this->requestPageData($url);
+        try {
+            return $this->pageParser->parsePrice($data);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(), $e->getTrace());
+            throw new AdvertParsingException("Unable to parse content from the page with provided url: $url");
+        }
+    }
+
+    /**
+     * @param Url $url
+     * @return string
+     * @throws AdvertClientException
+     */
+    private function requestPageData(Url $url): string
+    {
+        $response = $this->advertClient->get($url);
+        if ($response->status() !== Response::HTTP_OK) {
+            throw new AdvertClientException("Unable to fetch content from the page with provided url: $url");
+        }
+
+        return $response->content();
     }
 }

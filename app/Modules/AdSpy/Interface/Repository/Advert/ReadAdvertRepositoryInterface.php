@@ -4,7 +4,9 @@ namespace App\Modules\AdSpy\Interface\Repository\Advert;
 
 use App\Interface\Repository\ReadRepositoryInterface;
 use App\Modules\AdSpy\Entities\Advert;
-use App\Modules\AdSpy\ValueObject\Url;
+use App\ValueObject\NotNegativeInteger;
+use App\ValueObject\Url;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Interface ReadAdvertRepositoryInterface
@@ -18,4 +20,15 @@ interface ReadAdvertRepositoryInterface extends ReadRepositoryInterface
      * @return Advert|null
      */
     public function findByUrl(Url $advertUrl): ?Advert;
+
+    /**
+     * @return NotNegativeInteger
+     */
+    public function fetchLastId(): NotNegativeInteger;
+
+    /**
+     * @param array<NotNegativeInteger> $advertsIds
+     * @return Collection<Advert>
+     */
+    public function fetchPricesByAdvertsIds(array $advertsIds): Collection;
 }

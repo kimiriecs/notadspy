@@ -2,9 +2,12 @@
 
 namespace App\Modules\AdSpy\Mail;
 
+use App\Modules\AdSpy\Dto\PriceActualization\NewPriceMailData;
+use App\Modules\User\Entities\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -14,11 +17,12 @@ class PriceSubscriptionMail extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * Create a new message instance.
+     * @param User $subscriber
+     * @param NewPriceMailData $mailData
      */
     public function __construct(
-      protected int $oldPrice,
-      protected int $newPrice,
+        private readonly User $subscriber,
+        private readonly NewPriceMailData $mailData
     ) {
         //
     }
@@ -29,7 +33,7 @@ class PriceSubscriptionMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('ww@dd.cc', 'qqqqqqq'),
+            // from: new Address('ww@dd.cc', 'qqqqqqq'),
             subject: 'Price Subscription Mail',
         );
     }
@@ -42,8 +46,12 @@ class PriceSubscriptionMail extends Mailable
         return new Content(
             view: 'mail.mail',
             with: [
-                'oldPrice' => $this->oldPrice,
-                'newPrice' => $this->newPrice,
+                'subscriber' => $this->subscriber->name,
+                'oldPrice' => (string) $this->mailData->getOldPrice(),
+                'newPrice' => (string) $this->mailData->getNewPrice(),
+                'advertTitle' => $this->mailData->getAdvertTitle()->value(),
+                'advertUrl' => $this->mailData->getAdvertUrl()->value(),
+                'advertImageUrl' => $this->mailData->getAdvertImageUrl()->value(),
             ],
         );
     }
@@ -51,7 +59,7 @@ class PriceSubscriptionMail extends Mailable
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array<int, Attachment>
      */
     public function attachments(): array
     {

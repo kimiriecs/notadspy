@@ -2,9 +2,13 @@
 
 namespace App\Modules\AdSpy\Dto;
 
-use App\Modules\AdSpy\ValueObject\Currency;
-use App\Modules\AdSpy\ValueObject\NotNegativeInteger;
-use App\Modules\AdSpy\ValueObject\Price;
+use App\Exception\InvalidCurrencyFormatException;
+use App\Exception\InvalidNumberFormatException;
+use App\ValueObject\Currency;
+use App\ValueObject\NotNegativeInteger;
+use App\ValueObject\Price;
+use Illuminate\Contracts\Support\Jsonable;
+use InvalidArgumentException;
 use JsonSerializable;
 
 /**
@@ -12,7 +16,7 @@ use JsonSerializable;
  *
  * @package App\Modules\AdSpy\Dto
  */
-readonly class PriceData implements JsonSerializable
+readonly class PriceData implements JsonSerializable, Jsonable
 {
     /**
      * @param Price $price
@@ -66,5 +70,58 @@ readonly class PriceData implements JsonSerializable
             'amount' => $this->getAmount()->asInt(),
             'currency' => $this->getCurrency()->value(),
         ];
+    }
+
+    /**
+     * @param $options
+     * @return false|string
+     */
+    public function toJson($options = 0): false|string
+    {
+        return json_encode($this->jsonSerialize(), $options);
+    }
+
+    /**
+     * @param string $data
+     * @param bool $associative
+     * @return PriceData
+     * @throws InvalidCurrencyFormatException
+     * @throws InvalidNumberFormatException
+     */
+    public static function fromJson(string $data, bool $associative = true): PriceData
+    {
+        $arrayData = json_decode($data, $associative);
+
+        return self::fromArray($arrayData);
+    }
+
+    /**
+     * @param array $data
+     * @return PriceData
+     * @throws InvalidCurrencyFormatException
+     * @throws InvalidNumberFormatException
+     */
+    public static function fromArray(array $data): PriceData
+    {
+        $amount = $data['amount'] ?? null;
+        $currency = $data['currency'] ?? null;
+        $advertId = $data['advert_id'] ?? null;
+        $id = $data['id'] ?? null;
+
+        if (empty($advertId) ||
+            empty($amount) ||
+            empty($currency)
+        ) {
+            throw new InvalidArgumentException("Unable to create Price object with provided arguments: some of arguments are empty");
+        }
+
+        return new self(
+            price: Price::fromArray([
+                'amount' => $amount,
+                'currency' => $currency,
+            ]),
+            advertId: NotNegativeInteger::fromNumber($advertId),
+            id: !empty($id) ? NotNegativeInteger::fromNumber($id) : null,
+        );
     }
 }

@@ -5,5 +5,5 @@ use App\Modules\AdSpy\Enum\TimeZone;
 use Illuminate\Support\Facades\Schedule;
 
 Schedule::command(CheckPriceCommand::class)
-    ->everyMinute()
+    ->cron('30 * * * *')
     ->timezone(TimeZone::KYIV->value);

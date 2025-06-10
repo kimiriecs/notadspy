@@ -28,6 +28,12 @@ interface WriteSubscriptionRepositoryInterface
 
     /**
      * @param NotNegativeInteger $subscriptionId
+     * @return Subscription
+     */
+    public function toggleStatus(NotNegativeInteger $subscriptionId): Subscription;
+
+    /**
+     * @param NotNegativeInteger $subscriptionId
      * @return bool
      */
     public function delete(NotNegativeInteger $subscriptionId): bool;

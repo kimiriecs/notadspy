@@ -53,7 +53,7 @@ class Advert extends Model
      */
     public function prices(): HasMany
     {
-        return $this->hasMany(Price::class);//->whereNull(['deleted_at']);
+        return $this->hasMany(Price::class);
     }
 
     /**
@@ -62,7 +62,7 @@ class Advert extends Model
     public function currentPrice(): HasOne
     {
         return $this->hasOne(Price::class)
-            ->latestOfMany()
+            ->latestOfMany('created_at')
             ->whereNull('deleted_at');
     }
 

@@ -7,7 +7,7 @@ use App\Interface\QueryBus\QueryHandlerInterface;
 use App\Modules\AdSpy\Entities\Subscription;
 use App\Modules\AdSpy\Interface\Repository\Subscription\ReadSubscriptionRepositoryInterface;
 use App\Modules\AdSpy\QueryBus\Query\Subscription\FetchAllUserSubscriptions;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class FetchAllUserSubscriptionsHandler
@@ -26,9 +26,9 @@ readonly class FetchAllUserSubscriptionsHandler implements QueryHandlerInterface
 
     /**
      * @param FetchAllUserSubscriptions $query
-     * @return Collection<Subscription>
+     * @return LengthAwarePaginator<Subscription>
      */
-    public function handle(Query $query): Collection
+    public function handle(Query $query): LengthAwarePaginator
     {
         return $this->repository->fetchAllUserSubscriptions($query->getUserId());
     }

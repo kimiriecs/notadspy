@@ -1,3 +1,140 @@
-# AdSpy
+# NotAdSpy
 
 ---
+
+## Application for tracking ads prices changes
+Built with:
+- Laravel
+- InertiaJs
+- Mysql
+- MailPit
+- Horizon
+- Sail
+
+What user can do with this app:
+- make subscriptions on price\'s changes. 
+  - just add url of advert and save - all done
+- receive mail notifications on price\'s changes
+  - each time price changes user will receive mail to provided email during registration
+  - email must be verified
+- pause subscriptions
+  - users can disable subscription without deleting it to stop notifications
+- remove subscriptions
+  - or completely remove it if subscription is unnecessary
+
+## Installation
+
+```shell
+    git clone git@github.com:kimiriecs/noadspy.git
+```
+
+```shell
+    cd adspy
+```
+
+## Automatically
+
+```shell
+    chmod +x install.sh && install.sh
+```
+
+## Manually
+
+```shell
+    docker run --rm \
+        -u "$(id -u):$(id -g)" \
+        -v "$(pwd):/var/www/html" \
+        -w /var/www/html \
+        laravelsail/php84-composer:latest \
+        composer install --ignore-platform-reqs
+```
+
+```shell
+    cp .env.example .env
+```
+
+```shell
+     ./vendor/bin/sail up -d
+```
+
+```shell
+     ./vendor/bin/sail artisan key:generate
+```
+
+```shell
+     ./vendor/bin/sail artisan migrate
+```
+
+```shell
+     ./vendor/bin/sail artisan db:seed
+```
+
+```shell
+     ./vendor/bin/sail npm install
+```
+
+```shell
+     ./vendor/bin/sail npm run build
+```
+
+## Run tests
+```shell
+    ./vendor/bin/sail test --env=testing
+```
+
+## Mails
+
+For previewing mails in local environment use MailPit
+
+### Tracking queues
+
+For tracking queues of processing prices checks and sending mails in the project installed Laravel Horizon package
+
+All queues will start automatically in the background via supervisor 
+
+Use Makefile in the root project directory to manage supervisor
+
+## Run price the tracking process
+
+To run price the tracking process, there are two methods exist:
+
+run artisan command manually:
+```shell
+    ./vendor/bin/sail artisan ad:price
+```
+or use scheduler to run the process periodically:
+```shell   
+    ./vendor/bin/sail artisan ad:price
+```
+
+Default cron schedule "30 * * * *" 
+
+To overwrite this value, edit PRICE_TRACK_SCHEDULE variable in .env
+
+## Hosts and ports
+
+After running the app, these hosts are available in the browser:
+
+#### App:
+[https://localhost:8001](https://localhost:8001)
+
+#### Horizon:
+[https://localhost:8001/horizon](https://localhost:8001/horizon)
+
+#### MailPit:
+[https://localhost:8025](https://localhost:8025)
+
+## Database
+
+After running the app and executing a command 
+
+```shell
+    ./vendor/bin/sail artisan db:seed
+```
+in the database, three default users with subscriptions will be available
+  - u1@example.com password
+  - u2@example.com password
+  - u3@example.com password
+
+At this point, the app is ready to run scheduler or manually start price check process
+All queues also must be running

@@ -38,6 +38,18 @@ class Subscription extends Model
     ];
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'notification_email_verified_at' => 'datetime',
+        ];
+    }
+
+    /**
      * @return BelongsTo
      */
     public function user(): BelongsTo

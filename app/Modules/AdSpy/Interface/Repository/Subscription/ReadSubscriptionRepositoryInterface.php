@@ -5,7 +5,7 @@ namespace App\Modules\AdSpy\Interface\Repository\Subscription;
 use App\Interface\Repository\ReadRepositoryInterface;
 use App\Modules\AdSpy\Entities\Subscription;
 use App\ValueObject\NotNegativeInteger;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection as SupportCollection;
 
 /**
@@ -24,9 +24,9 @@ interface ReadSubscriptionRepositoryInterface extends ReadRepositoryInterface
 
     /**
      * @param NotNegativeInteger $userId
-     * @return Collection<Subscription>
+     * @return LengthAwarePaginator<Subscription>
      */
-    public function fetchAllUserSubscriptions(NotNegativeInteger $userId): Collection;
+    public function fetchAllUserSubscriptions(NotNegativeInteger $userId): LengthAwarePaginator;
 
     /**
      * @param NotNegativeInteger $advertId

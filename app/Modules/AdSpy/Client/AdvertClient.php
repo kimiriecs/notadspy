@@ -25,7 +25,7 @@ class AdvertClient implements AdvertClientInterface
 
     /**
      * @param Url $url
-     * @return JsonResponse
+     * @return Response
      */
     public function get(Url $url): Response
     {

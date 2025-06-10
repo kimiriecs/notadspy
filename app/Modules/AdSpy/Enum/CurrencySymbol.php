@@ -20,4 +20,13 @@ enum CurrencySymbol: string
     {
         return [self::USD->value, self::EUR->value];
     }
+
+    /**
+     * @param string $name
+     * @return CurrencySymbol|null
+     */
+    public static function tryFromName(string $name): ?CurrencySymbol
+    {
+        return array_find(self::cases(), fn(CurrencySymbol $symbol) => $symbol->name === $name);
+    }
 }

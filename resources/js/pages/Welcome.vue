@@ -15,10 +15,10 @@ const page = usePage<SharedData>()
             <nav class="flex items-center justify-end gap-4">
                 <Link
                     v-if="page.props.auth.user"
-                    :href="route('dashboard')"
+                    :href="route('subscriptions')"
                     class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                 >
-                    Dashboard
+                    Ads
                 </Link>
                 <template v-else>
                     <Link
@@ -36,16 +36,15 @@ const page = usePage<SharedData>()
                 </template>
             </nav>
         </header>
-        <div class="duration-750 starting:opacity-0 flex w-full items-center justify-center opacity-100 transition-opacity lg:grow">
-            <main class="flex w-full max-w-[335px] flex-col-reverse overflow-hidden rounded-lg lg:max-w-4xl lg:flex-row">
+        <div class="duration-750 starting:opacity-0 flex w-full items-center justify-center opacity-100 transition-opacity grow">
+            <main class="flex w-full max-w-[335px] flex-col items-center justify-center overflow-hidden rounded-lg lg:max-w-4xl lg:flex-row">
                 <div class="">
-                    <h1 class="text-5xl mb-1 font-medium">Ad Spy</h1>
+                    <h1 class="text-5xl mb-1 font-medium">not Ad Spy</h1>
                     <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">
-                        Shhh... Track your ads silently ... <br/>
+                        track your ads ... <br/>
                     </p>
                 </div>
             </main>
         </div>
-        <div class="h-14.5 hidden lg:block"></div>
     </div>
 </template>

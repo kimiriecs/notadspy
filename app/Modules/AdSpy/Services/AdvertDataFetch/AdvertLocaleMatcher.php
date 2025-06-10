@@ -19,7 +19,7 @@ class AdvertLocaleMatcher
      */
     public function getLocale(Url $url): Locale
     {
-        $pattern = "#" . AdvertUrlPart::BASE_URL->value . "(?<locale>" . AdvertUrlPart::UA_LOCALE_SEGMENT->value . ").*$#";
+        $pattern = "#" . AdvertUrlPart::BASE_URL->value . AdvertUrlPart::PREFIX_SEGMENT->value . "(?<locale>" . AdvertUrlPart::UA_LOCALE_SEGMENT->value . ").*$#";
         preg_match_all($pattern, $url->value(), $matches, PREG_UNMATCHED_AS_NULL);
 
         $uaLocale = $matches['locale'] ?? null;

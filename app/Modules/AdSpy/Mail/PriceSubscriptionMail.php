@@ -28,12 +28,13 @@ class PriceSubscriptionMail extends Mailable
     }
 
     /**
-     * Get the message envelope.
+     * @return Envelope
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            // from: new Address('ww@dd.cc', 'qqqqqqq'),
+            from: new Address(config('mail.from.address'), config('mail.from.name')),
+            to: new Address($this->subscriber->email, $this->subscriber->name),
             subject: 'Price Subscription Mail',
         );
     }

@@ -21,9 +21,12 @@ class AdvertDateParser
      */
     public function parse(string $date, Locale $locale): DateTimeImmutable
     {
+        $isToday = str_starts_with(mb_strtolower($date), 'сьогодні');
         $date = trim(str_replace('р.', '', $date));
-        return Carbon::parseFromLocale($date, $locale->value, TimeZone::GMT->value)
+        $dateTime = Carbon::parseFromLocale($date, $locale->value, TimeZone::GMT->value)
             ->setTimezone(TimeZone::KYIV->value)
             ->toDateTimeImmutable();
+
+        return $isToday ? $dateTime : $dateTime->setTime(0,0);
     }
 }

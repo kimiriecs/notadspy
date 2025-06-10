@@ -14,6 +14,7 @@ use App\Modules\AdSpy\CommandBus\Command\Price\DeletePricesByAdvertId;
 use App\Modules\AdSpy\CommandBus\Command\Price\StorePrice;
 use App\Modules\AdSpy\CommandBus\Command\Subscription\DeleteSubscription;
 use App\Modules\AdSpy\CommandBus\Command\Subscription\StoreSubscription;
+use App\Modules\AdSpy\CommandBus\Command\Subscription\ToggleSubscriptionStatus;
 use App\Modules\AdSpy\CommandBus\Command\Subscription\UpdateSubscription;
 use App\Modules\AdSpy\CommandBus\CommandHandler\Advert\DeleteAdvertHandler;
 use App\Modules\AdSpy\CommandBus\CommandHandler\Advert\StoreAdvertHandler;
@@ -23,6 +24,7 @@ use App\Modules\AdSpy\CommandBus\CommandHandler\Price\DeletePricesByAdvertIdHand
 use App\Modules\AdSpy\CommandBus\CommandHandler\Price\StorePriceHandler;
 use App\Modules\AdSpy\CommandBus\CommandHandler\Subscription\DeleteSubscriptionHandler;
 use App\Modules\AdSpy\CommandBus\CommandHandler\Subscription\StoreSubscriptionHandler;
+use App\Modules\AdSpy\CommandBus\CommandHandler\Subscription\ToggleSubscriptionStatusHandler;
 use App\Modules\AdSpy\CommandBus\CommandHandler\Subscription\UpdateSubscriptionHandler;
 use App\Modules\AdSpy\Entities\Advert;
 use App\Modules\AdSpy\Entities\Subscription;
@@ -124,6 +126,7 @@ class AdSpyServiceProvider extends ServiceProvider
             StoreSubscription::class => StoreSubscriptionHandler::class,
             UpdateSubscription::class => UpdateSubscriptionHandler::class,
             DeleteSubscription::class => DeleteSubscriptionHandler::class,
+            ToggleSubscriptionStatus::class => ToggleSubscriptionStatusHandler::class,
         ]);
 
         $queryBus = app(QueryBusInterface::class);

@@ -2,6 +2,7 @@
 
 namespace App\Modules\AdSpy\Http\Request;
 
+use App\Modules\AdSpy\Http\Request\Rule\CheckUrlDomain;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -28,7 +29,7 @@ class StoreAdvertRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'url' => 'url:http,https'
+            'url' => ['url:http,https',  new CheckUrlDomain()]
         ];
     }
 }

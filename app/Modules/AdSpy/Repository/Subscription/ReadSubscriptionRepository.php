@@ -8,6 +8,7 @@ use App\Repository\BaseReadRepository;
 use App\ValueObject\NotNegativeInteger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection as SupportCollection;
 
 /**
@@ -40,14 +41,14 @@ class ReadSubscriptionRepository extends BaseReadRepository implements ReadSubsc
 
     /**
      * @param NotNegativeInteger $userId
-     * @return Collection<Subscription>
+     * @return LengthAwarePaginator
      */
-    public function fetchAllUserSubscriptions(NotNegativeInteger $userId): Collection
+    public function fetchAllUserSubscriptions(NotNegativeInteger $userId): LengthAwarePaginator
     {
         return $this->getBuilder()
             ->with(['advert', 'advert.prices'])
             ->where('user_id', $userId->asInt())
-            ->get();
+            ->paginate(10);
     }
 
     /**

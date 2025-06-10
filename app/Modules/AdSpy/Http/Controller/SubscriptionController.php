@@ -2,13 +2,19 @@
 
 namespace App\Modules\AdSpy\Http\Controller;
 
+use App\Exception\InvalidNumberFormatException;
 use App\Http\Controllers\Controller;
 use App\Modules\AdSpy\Http\Request\StoreAdvertRequest;
+use App\Modules\AdSpy\Http\Resource\SubscriptionResource;
+use App\Modules\AdSpy\UseCase\DeleteSubscription;
+use App\Modules\AdSpy\UseCase\FetchAllUserSubscriptions;
 use App\Modules\AdSpy\UseCase\RegisterSubscription;
-use App\Modules\User\Entities\User;
+use App\Modules\AdSpy\UseCase\ToggleSubscriptionStatus;
+use App\ValueObject\NotNegativeInteger;
 use App\ValueObject\Url;
+use Auth;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -17,57 +23,28 @@ use Throwable;
 class SubscriptionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @param FetchAllUserSubscriptions $action
+     * @return Response
+     * @throws InvalidNumberFormatException
      */
-    public function index(): Response
+    public function index(FetchAllUserSubscriptions $action): Response
     {
-        $ads = [
-            [
-                'url' => 'https://some-url.test/ad-1',
-                'notificationEmail' => 'u1@test.com',
-                'state' => 'active',
-                'price' => [
-                    'value' => 100,
-                    'currency' => 'UAH',
-                    'lastCheck' => '2025-03-15'
-                ]
-            ],
-            [
-                'url' => 'https://some-url.test/ad-1',
-                'notificationEmail' => 'u1@test.com',
-                'state' => 'active',
-                'price' => [
-                    'value' => 100,
-                    'currency' => 'UAH',
-                    'lastCheck' => '2025-03-15'
-                ]
-            ]
-        ];
+        /** @var LengthAwarePaginator $ads */
+        $ads = $action->fetch(NotNegativeInteger::fromNumber(Auth::id()));
 
         return Inertia::render(
-            component: 'AdvertSubscriptions',
-            props: ['ads' => $ads]
+            component: 'spy/AdvertSubscription/AdvertSubscriptions',
+            props: ['ads' => SubscriptionResource::collection($ads->onEachSide(0))]
         );
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @return Response
      */
     public function create(): Response
     {
-        /** @var User $user */
-        $user = auth()->user();
-        $channels = [
-            'mail' => [
-                $user->email,
-                'qw@sd.cv',
-                'qasas@sd.cv',
-            ]
-        ];
-
         return Inertia::render(
-            component: 'spy/AdvertSubscription/CreateAdvertSubscription',
-            props: ['channels' => $channels]
+            component: 'spy/AdvertSubscription/CreateAdvertSubscription'
         );
     }
 
@@ -92,34 +69,28 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @param int $id
+     * @param ToggleSubscriptionStatus $action
+     * @return RedirectResponse
+     * @throws InvalidNumberFormatException
      */
-    public function show(string $id)
+    public function toggleStatus(int $id, ToggleSubscriptionStatus $action): RedirectResponse
     {
-        //
+        $action->execute(NotNegativeInteger::fromNumber($id));
+
+        return redirect()->intended(route('subscriptions', absolute: false));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * @param int $id
+     * @param DeleteSubscription $action
+     * @return RedirectResponse
+     * @throws InvalidNumberFormatException
      */
-    public function edit(string $id)
+    public function destroy(int $id, DeleteSubscription $action): RedirectResponse
     {
-        //
-    }
+        $action->execute(NotNegativeInteger::fromNumber($id));
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->intended(route('subscriptions', absolute: false));
     }
 }

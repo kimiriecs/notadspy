@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Settings;
 
-use App\Models\User;
+use App\Modules\User\Entities\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;

@@ -132,9 +132,9 @@ After running the app and executing a command
     ./vendor/bin/sail artisan db:seed
 ```
 in the database, three default users with subscriptions will be available
-  - u1@example.com password
-  - u2@example.com password
-  - u3@example.com password
+  - u1@test.com password
+  - u2@test.com password
+  - u3@test.com password
 
 At this point, the app is ready to run scheduler or manually start price check process
 All queues also must be running

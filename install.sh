@@ -11,10 +11,15 @@ docker run --rm \
     composer install --ignore-platform-reqs
 
 echo "Copying .env file..."
-cp .env.example .env && sed -i 's/^APP_DEBUG=.*/APP_DEBUG=true/' .env
+cp .env.example .env && \
+    sed -i 's/^APP_DEBUG=.*/APP_DEBUG=true/' .env && \
+    sed -i 's/^DB_DATABASE=.*/DB_DATABASE=spy/' .env
 
 echo "Copying .env.testing file..."
-cp .env.example .env.testing && sed -i 's/^APP_ENV=.*/APP_ENV=testing/' .env.testing
+cp .env.example .env.testing && \
+    sed -i 's/^APP_ENV=.*/APP_ENV=testing/' .env.testing && \
+    sed -i 's/^APP_DEBUG=.*/APP_DEBUG=true/' .env && \
+    sed -i 's/^DB_DATABASE=.*/DB_DATABASE=spy_testing/' .env.testing
 
 echo "Starting Sail containers..."
 ./vendor/bin/sail up -d

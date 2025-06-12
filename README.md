@@ -61,6 +61,8 @@ What user can do with this app:
      ./vendor/bin/sail artisan key:generate
 ```
 
+#### !!! IMPORTANT: before executing next commands ensure that mysql service is running and healthy
+
 ```shell
      ./vendor/bin/sail artisan migrate
 ```

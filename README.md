@@ -116,13 +116,13 @@ To overwrite this value, edit PRICE_TRACK_SCHEDULE variable in .env
 After running the app, these hosts are available in the browser:
 
 #### App:
-[https://localhost:8001](https://localhost:8001)
+[https://localhost:20080](https://localhost:20080)
 
 #### Horizon:
-[https://localhost:8001/horizon](https://localhost:8001/horizon)
+[https://localhost:20080/horizon](https://localhost:20080/horizon)
 
 #### MailPit:
-[https://localhost:8025](https://localhost:8025)
+[https://localhost:28025](https://localhost:28025)
 
 ## Database
 

@@ -49,6 +49,7 @@ class AdvertSeeder extends Seeder
         $preservedOldPriceAdverts = [5, 10, 15, 20, 25, 30];
         $prices = [];
         foreach ($advertsUrls as $key => $advertsUrl) {
+            $id = $key + 1;
             $advertUrl = self::BASE_URL . $advertsUrl->getAttribute('href');
             try {
                 $advertData = $this->fetcher->fetch(Url::make($advertUrl));
@@ -57,7 +58,7 @@ class AdvertSeeder extends Seeder
             }
 
             //generate Advert
-            $advertId = $key;
+            $advertId = $id;
             $adverts[$advertId] = [
                 'id' => $advertId,
                 'url' => $advertData->getUrl()->value(),
@@ -69,8 +70,8 @@ class AdvertSeeder extends Seeder
             //generate Price
             $isOldPrice = in_array($advertId, $preservedOldPriceAdverts);
             $priceAmount = $advertData->getPrice()->getAmount()->asInt();
-            $priceId = $advertId;
-            $prices[] = [
+            $priceId = $id;
+            $prices[$priceId] = [
                 'id' => $priceId,
                 'advert_id' => NotNegativeInteger::fromNumber($advertId),
                 'amount' => $isOldPrice ? $priceAmount - 100 : $priceAmount,

@@ -35,7 +35,7 @@ What user can do with this app:
 ## Automatically
 
 ```shell
-    chmod +x install.sh && install.sh
+    chmod +x ./install.sh && ./install.sh
 ```
 
 ## Manually

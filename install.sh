@@ -11,10 +11,28 @@ docker run --rm \
     composer install --ignore-platform-reqs
 
 echo "Copying .env file..."
-cp .env.example .env
+cp .env.example .env && sed -i 's/^APP_DEBUG=.*/APP_DEBUG=true/' .env
+
+echo "Copying .env.testing file..."
+cp .env.example .env.testing && sed -i 's/^APP_ENV=.*/APP_ENV=testing/' .env.testing
 
 echo "Starting Sail containers..."
 ./vendor/bin/sail up -d
+
+echo -n "Waiting for MySQL to be healthy"
+(
+  ./vendor/bin/sail exec -T mysql sh -c '
+    until mysqladmin ping -h"127.0.0.1" -p"$MYSQL_PASSWORD" --silent 2>/dev/null; do
+        sleep 1
+    done
+  '
+) &
+PID=$!
+while kill -0 "$PID" 2>/dev/null; do
+    echo -n "."
+    sleep 1
+done
+echo "Mysql check finished..."
 
 echo "Generating app key..."
 ./vendor/bin/sail artisan key:generate
@@ -31,4 +49,8 @@ echo "Installing npm dependencies..."
 echo "Building frontend assets..."
 ./vendor/bin/sail npm run build
 
+set -a; source .env; set +a
 echo "All done"
+echo "App: http://localhost:${APP_PORT}"
+echo "Horizon: http://localhost:${APP_PORT}/horizon"
+echo "MailPit: http://localhost:${FORWARD_MAILPIT_DASHBOARD_PORT}"

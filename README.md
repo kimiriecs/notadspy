@@ -80,6 +80,8 @@ What user can do with this app:
      ./vendor/bin/sail artisan db:seed
 ```
 
+#### Install npm dependencies and build frontend
+
 ```shell
      ./vendor/bin/sail npm install
 ```

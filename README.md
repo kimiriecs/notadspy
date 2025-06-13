@@ -70,7 +70,7 @@ What user can do with this app:
      ./vendor/bin/sail artisan key:generate
 ```
 
-#### !!! IMPORTANT: before executing next commands ensure that mysql service is running and healthy
+#### !!! IMPORTANT: before executing the next two commands ensure that mysql service is running and healthy
 
 ```shell
      ./vendor/bin/sail artisan migrate
@@ -117,7 +117,11 @@ run artisan command manually:
 ```
 or use scheduler to run the process periodically:
 ```shell   
-    ./vendor/bin/sail artisan ad:price
+    ./vendor/bin/sail artisan schedule:work
+```
+to stop scheduler run:
+```shell   
+    ./vendor/bin/sail artisan schedule:interrupt
 ```
 
 Default cron schedule "30 * * * *" 
@@ -144,10 +148,10 @@ After running the app and executing a command
 ```shell
     ./vendor/bin/sail artisan db:seed
 ```
-in the database, three default users with subscriptions will be available
+in the database three default users with subscriptions will be available
   - u1@test.com password
   - u2@test.com password
   - u3@test.com password
 
-At this point, the app is ready to run scheduler or manually start price check process
+At this point the app is ready to run scheduler or manually start price check process
 All queues also must be running

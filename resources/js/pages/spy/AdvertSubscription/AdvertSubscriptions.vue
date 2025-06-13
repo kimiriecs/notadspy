@@ -18,16 +18,30 @@ const page = usePage<SharedData>()
 const props = defineProps<{
     ads: SubscriptionPagination
 }>()
+
+const deleteItem = (id: number) => {
+    props.ads.data = props.ads.data.filter((i) => i.id !== id)
+}
 </script>
 
 <template>
     <Head title="Advert Subscriptions" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="@container flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <div class="grid auto-rows-min justify-center gap-4 @lg:grid-cols-2 @2xl:grid-cols-3 @4xl:grid-cols-4 @5xl:grid-cols-5">
-                <div v-for="(item, key) in props.ads.data" :key="key" class="flex justify-center">
-                    <AdvertSubscriptionCard :ad="item" class="max-w-[300px] overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border" />
+        <div class="@container w-full h-full flex flex-1 flex-col gap-4 rounded-xl p-4">
+            <div class="w-full flex justify-center">
+                <div class="relative w-full flex flex-wrap justify-start @5xl:max-w-6xl">
+                    <TransitionGroup name="fade">
+                        <div v-for="item in props.ads.data"
+                             :key="item.id"
+                             class="flex justify-center p-2 w-full @lg:w-1/2 @2xl:w-1/3 @4xl:w-1/4 @5xl:w-1/5"
+                        >
+                            <AdvertSubscriptionCard
+                                @delete="deleteItem"
+                                :ad="item"
+                                class="max-w-[300px] overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"/>
+                        </div>
+                    </TransitionGroup>
                 </div>
             </div>
             <div class="w-full @max-lg:flex @max-lg:justify-center">
@@ -44,3 +58,20 @@ const props = defineProps<{
         </div>
     </AppLayout>
 </template>
+<style>
+.fade-move,
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 1s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.fade-leave-active {
+    position: absolute;
+}
+</style>

@@ -10,15 +10,20 @@ const props = defineProps<{
 }>()
 
 const deleteForm = useForm({});
-
+const emit = defineEmits<{
+    (e: 'delete', id: number): void
+}>()
 const submitDelete = () => {
-    deleteForm.post(
-        route('subscriptions.delete', {id: props.ad.id}),
-        {
-            preserveScroll: true,
-            onFinish: () => {},
-        }
-    );
+    emit('delete', props.ad.id)
+    setTimeout(() => {
+        deleteForm.post(
+            route('subscriptions.delete', {id: props.ad.id}),
+            {
+                preserveScroll: true,
+                onFinish: () => {},
+            }
+        );
+    }, 1000)
 };
 
 const toggleStatusForm = useForm({});

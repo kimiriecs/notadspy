@@ -15,7 +15,7 @@ class DeleteAdvert extends Command
     /**
      * @param NotNegativeInteger $advertId
      */
-    public function __construct(private NotNegativeInteger $advertId)
+    public function __construct(private readonly NotNegativeInteger $advertId)
     {
     }
 

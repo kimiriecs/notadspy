@@ -36,6 +36,15 @@ class ReadAdvertRepository extends BaseReadRepository implements ReadAdvertRepos
     }
 
     /**
+     * @param Url $advertUrl
+     * @return Advert|null
+     */
+    public function findByUrlWithTrashed(Url $advertUrl): ?Advert
+    {
+        return Advert::withTrashed()->firstWhere('url', $advertUrl->value());
+    }
+
+    /**
      * @return NotNegativeInteger
      * @throws InvalidNumberFormatException
      */

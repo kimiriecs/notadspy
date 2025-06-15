@@ -62,4 +62,25 @@ class WriteAdvertRepository extends BaseWriteRepository implements WriteAdvertRe
 
         return $existingAdvert;
     }
+
+    /**
+     * @param NotNegativeInteger $id
+     * @return bool
+     */
+    public function restore(NotNegativeInteger $id): bool
+    {
+        $id = $id->asInt();
+        /** @var Advert|null $model */
+        $model = Advert::withTrashed()->firstWhere('id', $id);
+        if (!$model) {
+            throw new ModelNotFoundException("Advert with provided ID = $id not found");
+        }
+
+        $success = $model->restore();
+        if (!$success) {
+            throw new ModelNotFoundException("Unable to restore advert with provided ID = $id");
+        }
+
+        return $success;
+    }
 }

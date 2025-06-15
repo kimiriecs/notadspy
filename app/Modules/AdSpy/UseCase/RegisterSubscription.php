@@ -6,7 +6,9 @@ use App\Exception\InvalidEmailFormatException;
 use App\Exception\InvalidNumberFormatException;
 use App\Interface\CommandBus\CommandBusInterface;
 use App\Interface\QueryBus\QueryBusInterface;
+use App\Modules\AdSpy\CommandBus\Command\Advert\RestoreAdvert;
 use App\Modules\AdSpy\CommandBus\Command\Advert\StoreAdvert;
+use App\Modules\AdSpy\CommandBus\Command\Advert\UpdateAdvert;
 use App\Modules\AdSpy\CommandBus\Command\Price\StorePrice;
 use App\Modules\AdSpy\CommandBus\Command\Subscription\StoreSubscription;
 use App\Modules\AdSpy\Dto\SubscriptionData;
@@ -14,7 +16,7 @@ use App\Modules\AdSpy\Entities\Advert;
 use App\Modules\AdSpy\Entities\Subscription;
 use App\Modules\AdSpy\Enum\SubscriptionStatus;
 use App\Modules\AdSpy\Interface\AdvertDataFetcherInterface;
-use App\Modules\AdSpy\QueryBus\Query\Advert\FindAdvertByUrl;
+use App\Modules\AdSpy\QueryBus\Query\Advert\FindAdvertByUrlWithTrashed;
 use App\Modules\AdSpy\QueryBus\Query\Subscription\FindUserSubscriptionByAdvertId;
 use App\Modules\User\Entities\User;
 use App\ValueObject\Email;
@@ -49,7 +51,8 @@ readonly class RegisterSubscription
     public function execute(Url $url): true
     {
         /** @var Advert|null $existingAdvert */
-        $advert = $this->queryBus->dispatch(new FindAdvertByUrl($url));
+        $advert = $this->queryBus->dispatch(new FindAdvertByUrlWithTrashed($url));
+
         if (!$advert) {
             $advertData = $this->fetcher->fetch($url);
             /** @var Advert $advert */
@@ -57,6 +60,20 @@ readonly class RegisterSubscription
             $this->commandBus->dispatch(
                 new StorePrice(
                     NotNegativeInteger::fromNumber($advert->id),
+                    $advertData->getPrice()
+                )
+            );
+        }
+
+        if ($advert->trashed()) {
+            $advertId = NotNegativeInteger::fromNumber($advert->id);
+            $this->commandBus->dispatch(new RestoreAdvert($advertId));
+            $advertData = $this->fetcher->fetch($url);
+            /** @var Advert $advert */
+            $advert = $this->commandBus->dispatch(new UpdateAdvert($advertId, $advertData));
+            $this->commandBus->dispatch(
+                new StorePrice(
+                    $advertId,
                     $advertData->getPrice()
                 )
             );
@@ -85,5 +102,10 @@ readonly class RegisterSubscription
         }
 
         return true;
+    }
+
+    private function createNew()
+    {
+
     }
 }

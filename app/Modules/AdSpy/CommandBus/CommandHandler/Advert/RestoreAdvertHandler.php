@@ -4,16 +4,15 @@ namespace App\Modules\AdSpy\CommandBus\CommandHandler\Advert;
 
 use App\Bus\CommandBus\Command;
 use App\Interface\CommandBus\CommandHandlerInterface;
-use App\Modules\AdSpy\CommandBus\Command\Advert\UpdateAdvert;
-use App\Modules\AdSpy\Entities\Advert;
+use App\Modules\AdSpy\CommandBus\Command\Advert\RestoreAdvert;
 use App\Modules\AdSpy\Interface\Repository\Advert\WriteAdvertRepositoryInterface;
 
 /**
- * Class UpdateAdvertHandler
+ * Class RestoreAdvertHandler
  *
  * @package App\Modules\AdSpy\CommandBus\CommandHandler\Advert
  */
-readonly class UpdateAdvertHandler implements CommandHandlerInterface
+readonly class RestoreAdvertHandler implements CommandHandlerInterface
 {
     /**
      * @param WriteAdvertRepositoryInterface $repository
@@ -24,11 +23,11 @@ readonly class UpdateAdvertHandler implements CommandHandlerInterface
     }
 
     /**
-     * @param UpdateAdvert $command
-     * @return Advert
+     * @param RestoreAdvert $command
+     * @return bool
      */
-    public function handle(Command $command): Advert
+    public function handle(Command $command): bool
     {
-        return $this->repository->update($command->getAdvertId(), $command->getData());
+        return $this->repository->restore($command->getAdvertId());
     }
 }

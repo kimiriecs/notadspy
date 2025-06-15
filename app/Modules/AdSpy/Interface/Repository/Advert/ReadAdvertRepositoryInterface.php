@@ -22,6 +22,12 @@ interface ReadAdvertRepositoryInterface extends ReadRepositoryInterface
     public function findByUrl(Url $advertUrl): ?Advert;
 
     /**
+     * @param Url $advertUrl
+     * @return Advert|null
+     */
+    public function findByUrlWithTrashed(Url $advertUrl): ?Advert;
+
+    /**
      * @return NotNegativeInteger
      */
     public function fetchLastId(): NotNegativeInteger;

@@ -7,6 +7,7 @@ use App\Interface\QueryBus\QueryBusInterface;
 use App\Modules\AdSpy\Adapter\UserAdapter;
 use App\Modules\AdSpy\Client\AdvertClient;
 use App\Modules\AdSpy\CommandBus\Command\Advert\DeleteAdvert;
+use App\Modules\AdSpy\CommandBus\Command\Advert\RestoreAdvert;
 use App\Modules\AdSpy\CommandBus\Command\Advert\StoreAdvert;
 use App\Modules\AdSpy\CommandBus\Command\Advert\UpdateAdvert;
 use App\Modules\AdSpy\CommandBus\Command\Price\BulkInsertPrice;
@@ -17,6 +18,7 @@ use App\Modules\AdSpy\CommandBus\Command\Subscription\StoreSubscription;
 use App\Modules\AdSpy\CommandBus\Command\Subscription\ToggleSubscriptionStatus;
 use App\Modules\AdSpy\CommandBus\Command\Subscription\UpdateSubscription;
 use App\Modules\AdSpy\CommandBus\CommandHandler\Advert\DeleteAdvertHandler;
+use App\Modules\AdSpy\CommandBus\CommandHandler\Advert\RestoreAdvertHandler;
 use App\Modules\AdSpy\CommandBus\CommandHandler\Advert\StoreAdvertHandler;
 use App\Modules\AdSpy\CommandBus\CommandHandler\Advert\UpdateAdvertHandler;
 use App\Modules\AdSpy\CommandBus\CommandHandler\Price\BulkInsertPriceHandler;
@@ -50,6 +52,7 @@ use App\Modules\AdSpy\QueryBus\Query\Advert\FetchLastAdvertId;
 use App\Modules\AdSpy\QueryBus\Query\Advert\FetchPricesByAdvertsIds;
 use App\Modules\AdSpy\QueryBus\Query\Advert\FindAdvertById;
 use App\Modules\AdSpy\QueryBus\Query\Advert\FindAdvertByUrl;
+use App\Modules\AdSpy\QueryBus\Query\Advert\FindAdvertByUrlWithTrashed;
 use App\Modules\AdSpy\QueryBus\Query\Price\FetchPriceHistoryForAdvert;
 use App\Modules\AdSpy\QueryBus\Query\Price\FetchPriceHistoryForSubscription;
 use App\Modules\AdSpy\QueryBus\Query\Subscription\FetchAllUserSubscriptions;
@@ -60,6 +63,7 @@ use App\Modules\AdSpy\QueryBus\QueryHandler\Advert\FetchLastAdvertIdHandler;
 use App\Modules\AdSpy\QueryBus\QueryHandler\Advert\FetchPricesByAdvertsIdsHandler;
 use App\Modules\AdSpy\QueryBus\QueryHandler\Advert\FindAdvertByIdHandler;
 use App\Modules\AdSpy\QueryBus\QueryHandler\Advert\FindAdvertByUrlHandler;
+use App\Modules\AdSpy\QueryBus\QueryHandler\Advert\FindAdvertByUrlWithTrashedHandler;
 use App\Modules\AdSpy\QueryBus\QueryHandler\Price\FetchPriceHistoryForAdvertHandler;
 use App\Modules\AdSpy\QueryBus\QueryHandler\Price\FetchPriceHistoryForSubscriptionHandler;
 use App\Modules\AdSpy\QueryBus\QueryHandler\Subscription\FetchAllUserSubscriptionsHandler;
@@ -120,6 +124,7 @@ class AdSpyServiceProvider extends ServiceProvider
             StoreAdvert::class => StoreAdvertHandler::class,
             UpdateAdvert::class => UpdateAdvertHandler::class,
             DeleteAdvert::class => DeleteAdvertHandler::class,
+            RestoreAdvert::class => RestoreAdvertHandler::class,
 
             StorePrice::class => StorePriceHandler::class,
 
@@ -134,6 +139,7 @@ class AdSpyServiceProvider extends ServiceProvider
         $queryBus->register([
             FindAdvertById::class => FindAdvertByIdHandler::class,
             FindAdvertByUrl::class => FindAdvertByUrlHandler::class,
+            FindAdvertByUrlWithTrashed::class => FindAdvertByUrlWithTrashedHandler::class,
             FetchLastAdvertId::class => FetchLastAdvertIdHandler::class,
             FetchPricesByAdvertsIds::class => FetchPricesByAdvertsIdsHandler::class,
 

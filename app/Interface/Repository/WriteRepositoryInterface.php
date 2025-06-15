@@ -16,4 +16,10 @@ interface WriteRepositoryInterface
      * @return bool
      */
     public function delete(NotNegativeInteger $id): bool;
+
+    /**
+     * @param NotNegativeInteger $id
+     * @return bool
+     */
+    public function restore(NotNegativeInteger $id): bool;
 }

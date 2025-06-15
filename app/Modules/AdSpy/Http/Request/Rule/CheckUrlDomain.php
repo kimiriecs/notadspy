@@ -16,7 +16,9 @@ class CheckUrlDomain implements ValidationRule
 {
     private const array ALLOWED_DOMAINS = [
         'https://www.olx.ua/d/obyavlenie/',
-        'https://www.olx.ua/d/uk/obyavlenie/'
+        'https://www.olx.ua/d/uk/obyavlenie/',
+        'https://m.olx.ua/d/obyavlenie/',
+        'https://m.olx.ua/d/uk/obyavlenie/'
     ];
 
     /**
@@ -40,7 +42,7 @@ class CheckUrlDomain implements ValidationRule
         }
 
         if (!$isAllowedDomain) {
-            $fail('Provided :attribute is allowed');
+            $fail('Provided :attribute is not allowed');
         }
 
         if (!$this->checkIsBroken($value)) {

@@ -1,12 +1,13 @@
 # NotAdSpy
 
 ---
-
 ## Application for tracking ads prices changes
 Built with:
 - Laravel
 - InertiaJs
+- VueJs
 - Mysql
+- Redis
 - MailPit
 - Horizon
 - Sail
@@ -15,30 +16,37 @@ What user can do with this app:
 - make subscriptions on price\'s changes. 
   - just add url of advert and save - all done
 - receive mail notifications on price\'s changes
-  - each time price changes user will receive mail to provided email during registration
-  - email must be verified
+  - each time price changes user will receive mail to email, provided during registration (email must be verified)
 - pause subscriptions
   - users can disable subscription without deleting it to stop notifications
 - remove subscriptions
-  - or completely remove it if subscription is unnecessary
+  - users can completely remove subscription if it is unnecessary
 
+---
 ## Installation
+### Install a project automatically
 
 ```shell
-    git clone git@github.com:kimiriecs/noadspy.git
+    git clone git@github.com:kimiriecs/notadspy.git
 ```
 
 ```shell
-    cd adspy
+    cd notadspy
 ```
-
-## Automatically
 
 ```shell
     chmod +x ./install.sh && ./install.sh
 ```
 
-## Manually
+### Install a project manually
+
+```shell
+    git clone git@github.com:kimiriecs/notadspy.git
+```
+
+```shell
+    cd notadspy
+```
 
 ```shell
     docker run --rm \
@@ -90,23 +98,31 @@ What user can do with this app:
      ./vendor/bin/sail npm run build
 ```
 
+---
 ## Run tests
 ```shell
     ./vendor/bin/sail test --env=testing
 ```
 
+---
 ## Mails
 
-For previewing mails in local environment use MailPit
+For previewing mails or email verification in local environment use MailPit:
 
-### Tracking queues
+[https://localhost:28025](https://localhost:28025)
 
-For tracking queues of processing prices checks and sending mails in the project installed Laravel Horizon package
+---
+## Tracking queues
+
+For tracking queues of processing prices checks and sending mails in the project installed Laravel Horizon package:
+
+[https://localhost:20080/horizon](https://localhost:20080/horizon)
 
 All queues will start automatically in the background via supervisor 
 
-Use Makefile in the root project directory to manage supervisor
+Use Makefile in the project's root directory to manage supervisor
 
+---
 ## Run price the tracking process
 
 To run price the tracking process, there are two methods exist:
@@ -128,7 +144,12 @@ Default cron schedule "30 * * * *"
 
 To overwrite this value, edit PRICE_TRACK_SCHEDULE variable in .env
 
+---
+
 ## Hosts and ports
+
+For preventing conflicts with local ports all default ports for services were shifted by 20000.
+For example, default port 80 became port 20080, port 8025 became port 28025, etc.
 
 After running the app, these hosts are available in the browser:
 
@@ -140,6 +161,8 @@ After running the app, these hosts are available in the browser:
 
 #### MailPit:
 [https://localhost:28025](https://localhost:28025)
+
+---
 
 ## Database
 
@@ -153,5 +176,11 @@ in the database three default users with subscriptions will be available
   - u2@test.com password
   - u3@test.com password
 
-At this point the app is ready to run scheduler or manually start price check process
-All queues also must be running
+### !!!IMPORTANT:
+During execution of command `./vendor/bin/sail artisan db:seed` the command `./vendor/bin/sail artisan migrate:fresh` executed inside seeder.
+
+So after each `./vendor/bin/sail artisan db:seed` command execution database will be in initial state.
+
+---
+At this point app is running [https://localhost:20080](https://localhost:20080) and ready to run scheduler or manual start of price's check process.
+All queues also must be running.

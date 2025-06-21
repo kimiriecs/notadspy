@@ -66,7 +66,7 @@ What user can do with this app:
 ```shell
     cp .env.example .env.testing && \
         sed -i 's/^APP_ENV=.*/APP_ENV=testing/' .env.testing && \
-        sed -i 's/^APP_DEBUG=.*/APP_DEBUG=true/' .env && \
+        sed -i 's/^APP_DEBUG=.*/APP_DEBUG=true/' .env.testing && \
         sed -i 's/^DB_DATABASE=.*/DB_DATABASE=spy_testing/' .env.testing
 ```
 
